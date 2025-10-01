@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="z-index"/>
+  <title>QUINTHERA AI</title>
+  <link rel="stylesheet" href="quinthera.css" />
+  <style>
+    /* Small Close Sidebar Button */
+    .sidebar-close-btn {
+      position: absolute; /* float over sidebar content */
+      top: 10px;          /* distance from top */
+      left: 10px;         /* distance from left */
+      width: 32px;        /* small width */
+      height: 32px;       /* small height */
+      background: rgba(0,0,0,0.2); /* subtle background */
+      border: none;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      transition: background 0.3s ease, opacity 0.3s ease;
+    }
+
+    .sidebar-close-btn:hover {
+      background: rgba(0,0,0,0.35);
+    }
+
+    .sidebar-close-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <div id="logo-header">
+    <img src="Logo.png" alt="Quinthera AI Logo" />
+    <h1>QUINTHERA AI</h1>
+  </div>
+
+  <!-- CONTAINER -->
+  <div id="container">
+
+    <!-- LEFT SIDEBAR -->
+    <nav id="sidebar" class="closed" aria-label="Chat Sidebar">
+
+      <!-- Expanded sidebar content -->
+      <div class="sidebar-expanded">
+
+        <!-- Small Close Sidebar Button -->
+        <!-- Small Close Sidebar Button with image -->
+        <button id="close-sidebar-btn" class="sidebar-close-btn" title="Close Sidebar" aria-label="Close Sidebar">
+        <img src="hamburger.png" alt="Close Sidebar" />
+      </button>
+
+        <header>Chats</header>
+
+        <!-- Version selector -->
+        <div id="version-selector-container">
+          <label for="version-select">Quinthera AI Version:</label>
+          <select id="version-select" title="Select AI Version">
+            <option value="v1">QUINTHERA 1.0</option>
+            <option value="v2">QUINTHERA 1.4</option>
+            <option value="v3">QUINTHERA 1.5</option>
+            <option value="custom">QUINTHERA 2.0(In development)</option>
+          </select>
+        </div>
+
+        <!-- Search chats -->
+        <div id="search-chat-container">
+          <input type="text" id="search-chat" placeholder="Search chats..." aria-label="Search chats" />
+        </div>
+
+        <!-- New Chat -->
+        <div id="new-chat-container">
+          <button id="new-chat-btn" title="New Chat">+ New Chat</button>
+        </div>
+
+        <!-- Chat list -->
+        <div id="chat-list"></div>
+
+        <!-- Sidebar footer -->
+        <div id="sidebar-footer">
+          <button id="get-api-btn">Get API Key</button>
+        </div>
+
+      </div>
+
+      <!-- Narrow sidebar content for closed state -->
+      <div class="sidebar-narrow" aria-hidden="true">
+
+        <!-- Logo toggle button -->
+        <button id="sidebar-toggle" aria-label="Toggle sidebar" title="Toggle sidebar">
+          <img src="Logo.png" alt="Logo" class="logo-img" />
+          <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="7" x2="21" y2="7"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="17" x2="21" y2="17"></line>
+          </svg>
+        </button>
+
+        <!-- Icons container -->
+        <div id="narrow-icons">
+          <button id="narrow-new-chat" title="New Chat" aria-label="New Chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+
+          <button id="narrow-search" title="Search Chats" aria-label="Search Chats">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
+          <button id="narrow-models" title="Models" aria-label="Models">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- MAIN CHAT -->
+    <main id="main-chat">
+      <div id="chat-header">Welcome! Start a new chat or select one.</div>
+      <div id="chat-container"></div>
+      <div id="input-area">
+        <input type="text" id="user-input" placeholder="Type your message here..." aria-label="User message input" />
+        <button id="mic-btn" aria-label="Toggle microphone">🎤</button>
+        <button id="send-btn">Send</button>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="quinthera.js"></script>
+  <script>
+
+  </script>
+</body>
+</html> 
